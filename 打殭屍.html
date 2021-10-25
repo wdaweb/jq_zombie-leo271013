@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    #game {
+      width: 400px;
+      height: 400px;
+      background-color: black;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #game img {
+      height: 150px;
+      position: absolute;
+    }
+
+    .zombie {
+      z-index: 999;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="button" value="開始遊戲" id="btn-start">
+  <br>
+  <p>分數: <span id="score">0</span>分</p>
+  <p>剩餘: <span id="time">0</span>秒</p>
+  <hr>
+  <div id="game"></div>
+  <script src="../jquery-3.6.0.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+
+    // 分數
+    let score = 0
+    // 倒數時間
+    let countdown = 10
+    // 計時器
+    let timer = 0
+
+    const move = (zombie) => {
+      const top = `${Math.round(Math.random() * 70)}%`
+      const left = `${Math.round(Math.random() * 70)}%`
+      zombie.stop().animate({
+        // 如果JSON物件的值是變數，且跟key一樣時可以改寫left: left 寫成left
+        top: top,
+        left
+      }, 2000, function () {
+        // 移動完之後遞迴再動一次
+        move(zombie)
+      })
+    }
+
+
+    $('#btn-start').click(function () {
+      // 關閉開始按鈕的觸發
+      $(this).attr('disabled', true)
+      // 重設
+      score = 0
+      $('#socre').text(score)
+      countdown = 10
+      $('#time').text(countdown)
+      // 開始計時遊戲
+      timer = setInterval(function () {
+        countdown--
+        $('#time').text(countdown)
+        // 隨機產生殭屍
+        let random = Math.round(Math.random() * 10)
+        if (random > 5 && $("#game .zombie").length < 10) {
+          const top = `${Math.round(Math.random() * 70)}%`
+          const left = `${Math.round(Math.random() * 70)}%`
+          const zombie = $(`<img class="zombie" src="./1.gif" style="top:${top};left:${left}">`)
+          $("#game").append(zombie)
+          move(zombie)
+        }
+        // 時間到
+        if (countdown <= 0) {
+          clearInterval(timer)
+          $("#game img").remove()
+          $('#btn-start').attr('disabled', false)
+          Swal.fire({
+            icon: "info",
+            title: "時間到",
+            text: `你得到${score}分`
+          })
+        }
+      }, 1000)
+    })
+
+
+    $("#game").on('click', 'img', function () {
+      $(this).attr('src', './blood.png')
+      $(this).stop()
+      $(this).css({
+        'user-select': "none",
+        '-webkit-user-drag': "none",
+        'pointer-events': 'none'
+      })
+      $(this).removeClass('zombie').addClass('blood')
+      score++
+      $('#score').text(score)
+    })
+  </script>
+</body>
+
+</html>
