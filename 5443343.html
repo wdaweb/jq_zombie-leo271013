@@ -13,49 +13,105 @@
       padding: 0;
     }
 
+    body {
+      background: url(./resource/body.jpg);
+    }
+
+    .home {
+      margin: auto;
+      width: 419px;
+      height: 120px;
+      background: url(./resource/home.jpg);
+    }
+
     #box {
-      margin-top: 30px;
-      margin-left: 30px;
-      height: 500px;
-      width: 500px;
-      border: 1px solid black;
+      height: 750px;
+      width: 800px;
+      border: 5px ridge rgb(206, 206, 206);
       font-size: 0;
       position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgb(82, 111, 175);
+      overflow: hidden;
+    }
+
+    #move {
+      height: 99vh;
+      width: 1400px;
+      font-size: 0;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      z-index: 99;
     }
 
     #bo {
-      width: 100px;
-      height: 20px;
-      border: 1px solid black;
+      width: 40px;
+      height: 60px;
+      background-color: rgb(255, 245, 228);
       position: absolute;
-      transform: translate(-50%, -50%);
-      bottom: 0;
+      transform: translateX(-50%);
+      bottom: 10px;
+      box-sizing: border-box;
+      z-index: 30;
+      box-shadow: 1px 1px 2px;
+    }
+
+    .road {
+      background-size: 20px 20px;
+      animation: road 0.5s linear infinite;
+    }
+
+    @keyframes road {
+      0% {
+        background-position: 0 0;
+      }
+
+      100% {
+        background-position: 20px 0;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="home"></div>
+  <div id="move"></div>
   <div id="box">
     <div id="bo"></div>
   </div>
 
-
-
+  <script src="./resource/jquery-3.6.0.min.js"></script>
   <script>
     const box = document.getElementById("box")
     const bo = document.getElementById("bo")
+    const move = document.getElementById("move")
 
-    document.onmousemove = function (e) {
-      bo.style.left = `${e.clientX}px`
-      if (e.clientX > 500) {
-        bo.style.left = `500px`
+    move.onmousemove = (e) => {
+      bo.style.left = `${e.offsetX - 300}px`
+
+      if (300 < e.offsetX < 1100 && 119 < e.offsetY < 879) {
+        // move.style.cursor = `none`
       }
-      if (e.clientX < 0) {
-        bo.style.left = `0px`
+      if (e.offsetX < 320) {
+        bo.style.left = `21px`
       }
-      console.log(bo.style.left)
+      if (e.offsetX < 300) {
+        move.style.cursor = `default`
+      }
+      if (e.offsetX > 1080) {
+        bo.style.left = `779px`
+      }
+      if (e.offsetX > 1100) {
+        move.style.cursor = `default`
+      }
+
+      if (119 > e.offsetY || e.offsetY > 879) {
+        move.style.cursor = `default`
+      }
     }
-
 
   </script>
 </body>
