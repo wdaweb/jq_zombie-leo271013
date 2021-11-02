@@ -32,7 +32,7 @@
       position: relative;
       left: 50%;
       transform: translateX(-50%);
-      background-color: rgb(82, 111, 175);
+      background: url(./resource/bg.png);
       overflow: hidden;
     }
 
@@ -47,16 +47,37 @@
       z-index: 99;
     }
 
+    #carbar {
+      width: 800px;
+      height: 120px;
+      position: absolute;
+      transform: translateX(-50%);
+      left: 400px;
+      bottom: 300px;
+      z-index: 10;
+      border: 1px solid darkblue;
+    }
+
+    #car {
+      width: calc(100px / 11.75);
+      height: calc(120px / 11.75);
+      background-color: rgb(158, 111, 29);
+      position: absolute;
+      transform: translateX(-50%);
+      left: 400px;
+      z-index: 99;
+    }
+
     #bo {
-      width: 40px;
-      height: 60px;
+      /* *11.75 */
+      width: 100px;
+      height: 120px;
       background-color: rgb(255, 245, 228);
       position: absolute;
       transform: translateX(-50%);
-      bottom: 10px;
-      box-sizing: border-box;
+      bottom: 0px;
       z-index: 30;
-      box-shadow: 1px 1px 2px;
+      /* box-shadow: 1px 1px 2px; */
     }
 
     .road {
@@ -81,6 +102,9 @@
   <div id="move"></div>
   <div id="box">
     <div id="bo"></div>
+    <div id="carbar">
+      <div id="car"></div>
+    </div>
   </div>
 
   <script src="./resource/jquery-3.6.0.min.js"></script>
@@ -88,6 +112,8 @@
     const box = document.getElementById("box")
     const bo = document.getElementById("bo")
     const move = document.getElementById("move")
+    const car = document.getElementById("car")
+
 
     move.onmousemove = (e) => {
       bo.style.left = `${e.offsetX - 300}px`
@@ -112,6 +138,38 @@
         move.style.cursor = `default`
       }
     }
+
+    let rleft = 400
+    let bt = 350
+    let bw = 8.5
+    let bf = 10.2
+
+    setInterval(function () {
+      bt += 40
+      $('#carbar').animate({
+        top: `${bt}px`,
+      }, 50)
+      if (bt > 750) {
+        $('#carbar').remove()
+      }
+    }, 50);
+
+
+    const mm = (car) => {
+      rleft += (Math.round(Math.random() * 2) - 1) * (Math.floor(Math.random() * 50))
+      bw += 18
+      bf += 22
+      $('#car').stop().animate({
+        left: `${rleft}px`,
+        width: `${bw}px`,
+        height: `${bf}px`
+      }, 100, function () {
+        mm(car)
+      })
+    }
+
+    mm(car)
+
 
   </script>
 </body>
