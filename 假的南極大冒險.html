@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: url(./resource/body.jpg);
+    }
+
+    .home {
+      margin: auto;
+      width: 419px;
+      height: 120px;
+      background: url(./resource/home.jpg);
+    }
+
+    #box {
+      height: 750px;
+      width: 800px;
+      border: 5px ridge rgb(206, 206, 206);
+      font-size: 0;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      background: url(./resource/bg.png);
+      overflow: hidden;
+    }
+
+    #xxx {
+      height: 99vh;
+      width: 1400px;
+      font-size: 0;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      z-index: 99;
+    }
+
+    .carbar {
+      width: 800px;
+      height: 120px;
+      position: absolute;
+      transform: translateX(-50%);
+      left: 400px;
+      top: 190px;
+      z-index: 10;
+      border: 1px solid darkblue;
+    }
+
+    .car {
+      width: 10px;
+      height: 5px;
+      background-color: rgb(0, 0, 0);
+      position: absolute;
+      transform: translateX(-50%);
+      left: 400px;
+      z-index: 20;
+    }
+
+    #bo {
+      /* *11.75 */
+      width: 80px;
+      height: 80px;
+      background-color: white;
+      position: absolute;
+      transform: translateX(-50%);
+      bottom: 0px;
+      left: 50px;
+      z-index: 30;
+      /* box-shadow: 1px 1px 2px; */
+    }
+
+    .road {
+      background-size: 20px 20px;
+      animation: road 0.5s linear infinite;
+    }
+
+    @keyframes road {
+      0% {
+        background-position: 0 0;
+      }
+
+      100% {
+        background-position: 20px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="home"></div>
+  <div id="xxx"></div>
+  <div id="box">
+    <div id="bo"></div>
+  </div>
+
+  <script src="./resource/jquery-3.6.0.min.js"></script>
+  <script>
+    const box = document.getElementById("box")
+    const bo = document.getElementById("bo")
+
+    let tops = 190
+    let rleft = 400
+    let bw = 10
+    let bh = 5
+    let we = 0
+
+    const move = (carbar) => {
+      tops += 18
+      console.log(we, 'we')
+      console.log(rleft, 'rleft')
+
+      if (723 > tops && tops > 677 && we - 80 < rleft && we + 80 > rleft) {
+        alert('!!')
+      }
+      if (tops < 800) {
+        carbar.stop().animate({
+          top: `${tops}px`,
+        }, 10, function () {
+          move(carbar)
+        })
+      } else {
+        $('.carbar').remove()
+        $('.car').remove()
+        tops = 190
+        rleft = 400
+        bw = 8.5
+        bh = 5
+        timer()
+      }
+
+    }
+    const move2 = (car) => {
+      rleft += (Math.round(Math.random() * 2) - 1) * (Math.floor(Math.random() * 60))
+      bw += 10
+      bh += 2
+      $('.car').stop().animate({
+        left: `${rleft}px`,
+        width: `${bw}px`,
+        height: `${bh}px`
+      }, 50, function () {
+        move2(car)
+      })
+    }
+
+    const timer = () => {
+      const carbar = $(`<div class="carbar"><div class="car"></div></div>`)
+      const car = document.getElementsByClassName('car')
+      $("#box").append(carbar)
+      move(carbar)
+      move2(car)
+    }
+
+    timer()
+
+
+
+
+    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+    // let we = 0
+
+    xxx.onmousemove = (e) => {
+      bo.style.left = `${e.offsetX - 300}px`
+      we = e.offsetX - 300
+
+      if (300 < e.offsetX < 1100 && 119 < e.offsetY < 879) {
+        // xxx.style.cursor = `none`
+      }
+      if (e.offsetX < 340) {
+        bo.style.left = `40px`
+      }
+      if (e.offsetX < 300) {
+        xxx.style.cursor = `default`
+      }
+      if (e.offsetX > 1060) {
+        bo.style.left = `760px`
+      }
+      if (e.offsetX > 1100) {
+        xxx.style.cursor = `default`
+      }
+
+      if (119 > e.offsetY || e.offsetY > 879) {
+        xxx.style.cursor = `default`
+      }
+    }
+
+    // const game = () => {
+    //   $('.carbar').css('display', 'block')
+    //   $('.carbar').css('top', '200px')
+    //   $('.car').css('left', '400px')
+    //   $('.car').css('width', '8.51px');
+    //   $('.car').css('height', '5px')
+
+
+    //   let rleft = 400
+    //   let bt = 200
+    //   let bw = 8
+    //   let bf = 5
+
+    //   let aa = setInterval(() => {
+    //     bt += 20
+    //     $('.carbar').stop().animate({
+    //       top: `${bt}px`,
+    //     }, 25)
+    //     if (bt > 800 && we - 80 > rleft && rleft > we - 320) {
+    //       alert('!!')
+    //       rleft = -2000
+    //     }
+    //     if (bt > 900) {
+    //       $('.carbar').css('display', 'none')
+    //     }
+    //   }, 25);
+
+
+    //   const mm = (car) => {
+    //     rleft += (Math.round(Math.random() * 2) - 1) * (Math.floor(Math.random() * 90))
+    //     bw += 20
+    //     bf += 4
+    //     $('.car').stop().animate({
+    //       left: `${rleft}px`,
+    //       width: `${bw}px`,
+    //       height: `${bf}px`
+    //     }, 100)
+    //   }
+    //   mm(car)
+
+    //   let bb = setInterval(() => {
+    //     mm(car)
+    //   }, 100);
+
+    //   setInterval(function () {
+    //     clearInterval(aa)
+    //     clearInterval(bb)
+    //     game()
+    //   }, 1000);
+
+    // }
+    // game()
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>
