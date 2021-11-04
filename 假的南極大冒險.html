@@ -53,9 +53,8 @@
       position: absolute;
       transform: translateX(-50%);
       left: 400px;
-      top: 190px;
+      top: 200px;
       z-index: 10;
-      border: 1px solid darkblue;
     }
 
     .car {
@@ -72,7 +71,7 @@
       /* *11.75 */
       width: 80px;
       height: 80px;
-      background-color: white;
+      background-color: rgb(83, 18, 18);
       position: absolute;
       transform: translateX(-50%);
       bottom: 0px;
@@ -110,18 +109,17 @@
     const box = document.getElementById("box")
     const bo = document.getElementById("bo")
 
-    let tops = 190
+    let tops = 200
     let rleft = 400
     let bw = 10
     let bh = 5
     let we = 0
+    let randon = 0
 
     const move = (carbar) => {
       tops += 18
-      console.log(we, 'we')
-      console.log(rleft, 'rleft')
 
-      if (723 > tops && tops > 677 && we - 80 < rleft && we + 80 > rleft) {
+      if (723 > tops && tops > 677 && we - 90 < rleft && we + 90 > rleft) {
         alert('!!')
       }
       if (tops < 800) {
@@ -142,19 +140,20 @@
 
     }
     const move2 = (car) => {
-      rleft += (Math.round(Math.random() * 2) - 1) * (Math.floor(Math.random() * 60))
-      bw += 10
-      bh += 2
+      rleft += randon
+      bw += 7
+      bh += 1
       $('.car').stop().animate({
         left: `${rleft}px`,
         width: `${bw}px`,
         height: `${bh}px`
-      }, 50, function () {
+      }, 25, function () {
         move2(car)
       })
     }
 
     const timer = () => {
+      randon = (Math.round(Math.random() * 2) - 1) * (Math.floor(Math.random() * 20))
       const carbar = $(`<div class="carbar"><div class="car"></div></div>`)
       const car = document.getElementsByClassName('car')
       $("#box").append(carbar)
@@ -178,14 +177,14 @@
       if (300 < e.offsetX < 1100 && 119 < e.offsetY < 879) {
         // xxx.style.cursor = `none`
       }
-      if (e.offsetX < 340) {
-        bo.style.left = `40px`
+      if (e.offsetX < 500) {
+        bo.style.left = `150px`
       }
       if (e.offsetX < 300) {
         xxx.style.cursor = `default`
       }
-      if (e.offsetX > 1060) {
-        bo.style.left = `760px`
+      if (e.offsetX > 900) {
+        bo.style.left = `650px`
       }
       if (e.offsetX > 1100) {
         xxx.style.cursor = `default`
