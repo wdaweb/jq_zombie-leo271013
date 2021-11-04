@@ -53,31 +53,51 @@
       position: absolute;
       transform: translateX(-50%);
       left: 400px;
-      top: 200px;
+      top: 210px;
       z-index: 10;
     }
 
     .car {
-      width: 10px;
-      height: 5px;
+      width: 12px;
+      height: 7px;
       background-color: rgb(0, 0, 0);
       position: absolute;
       transform: translateX(-50%);
       left: 400px;
       z-index: 20;
+      border-radius: 40%;
+    }
+
+    .carbar2 {
+      width: 800px;
+      height: 120px;
+      position: absolute;
+      transform: translateX(-50%);
+      left: 400px;
+      top: 200px;
+      z-index: 10;
+    }
+
+    .car2 {
+      width: 12px;
+      height: 7px;
+      background-color: rgb(0, 0, 0);
+      position: absolute;
+      transform: translateX(-50%);
+      left: 400px;
+      z-index: 20;
+      border-radius: 40%;
     }
 
     #bo {
-      /* *11.75 */
-      width: 80px;
-      height: 80px;
-      background-color: rgb(83, 18, 18);
+      width: 100px;
+      height: 100px;
+      background: url(./resource/pg.gif)no-repeat center/cover;
       position: absolute;
       transform: translateX(-50%);
-      bottom: 0px;
+      bottom: 10px;
       left: 50px;
       z-index: 30;
-      /* box-shadow: 1px 1px 2px; */
     }
 
     .road {
@@ -109,20 +129,21 @@
     const box = document.getElementById("box")
     const bo = document.getElementById("bo")
 
-    let tops = 200
+    let tops = 210
     let rleft = 400
-    let bw = 10
-    let bh = 5
+    let bw = 12
+    let bh = 7
     let we = 0
     let randon = 0
 
     const move = (carbar) => {
       tops += 18
 
-      if (723 > tops && tops > 677 && we - 90 < rleft && we + 90 > rleft) {
+      if (750 > tops && tops > 720 && we - 85 < rleft && we + 85 > rleft) {
         alert('!!')
+        tops = 800
       }
-      if (tops < 800) {
+      if (tops < 750) {
         carbar.stop().animate({
           top: `${tops}px`,
         }, 10, function () {
@@ -153,7 +174,14 @@
     }
 
     const timer = () => {
-      randon = (Math.round(Math.random() * 2) - 1) * (Math.floor(Math.random() * 20))
+      let nu = 0
+      if (Math.random() > 0.5) {
+        nu = 1
+      } else {
+        nu -= 1
+      }
+      console.log(nu)
+      randon = nu * (Math.floor(Math.random() * 18 + 2))
       const carbar = $(`<div class="carbar"><div class="car"></div></div>`)
       const car = document.getElementsByClassName('car')
       $("#box").append(carbar)
@@ -161,30 +189,97 @@
       move2(car)
     }
 
-    timer()
+    setTimeout(() => {
+      timer()
+    }, 1250);
 
+    let tops2 = 210
+    let rleft2 = 400
+    let bw2 = 12
+    let bh2 = 7
+    let we2 = 0
+    let randon2 = 0
 
+    const move3 = (carbar2) => {
+      tops2 += 18
 
+      if (750 > tops2 && tops2 > 720 && we2 - 85 < rleft2 && we2 + 85 > rleft2) {
+        alert('!!')
+        tops = 800
+      }
+      if (tops2 < 750) {
+        carbar2.stop().animate({
+          top: `${tops2}px`,
+        }, 10, function () {
+          move3(carbar2)
+        })
+      } else {
+        $('.carbar2').remove()
+        $('.car2').remove()
+        tops2 = 190
+        rleft2 = 400
+        bw2 = 8.5
+        bh2 = 5
+        timer4()
+      }
 
-    // &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    }
+    const move4 = (car2) => {
+      rleft2 += randon2
+      bw2 += 7
+      bh2 += 1
+      $('.car2').stop().animate({
+        left: `${rleft2}px`,
+        width: `${bw2}px`,
+        height: `${bh2}px`
+      }, 25, function () {
+        move4(car2)
+      })
+    }
 
-    // let we = 0
+    const timer4 = () => {
+      let nu2 = 0
+      if (Math.random() > 0.5) {
+        nu2 = 1
+      } else {
+        nu2 -= 1
+      }
+      randon2 = nu2 * (Math.floor(Math.random() * 18 + 2))
+      const carbar2 = $(`<div class="carbar2"><div class="car2"></div></div>`)
+      const car2 = document.getElementsByClassName('car2')
+      $("#box").append(carbar2)
+      move3(carbar2)
+      move4(car2)
+    }
+
+    setTimeout(() => {
+      timer4()
+    }, 500);
+
+    // xxx.onclick = () =>{
+
+    // }
 
     xxx.onmousemove = (e) => {
       bo.style.left = `${e.offsetX - 300}px`
       we = e.offsetX - 300
+      we2 = e.offsetX - 300
 
       if (300 < e.offsetX < 1100 && 119 < e.offsetY < 879) {
         // xxx.style.cursor = `none`
       }
       if (e.offsetX < 500) {
         bo.style.left = `150px`
+        we = 150
+        we2 = 150
       }
       if (e.offsetX < 300) {
         xxx.style.cursor = `default`
       }
       if (e.offsetX > 900) {
         bo.style.left = `650px`
+        we = 650
+        we2 = 650
       }
       if (e.offsetX > 1100) {
         xxx.style.cursor = `default`
@@ -194,64 +289,6 @@
         xxx.style.cursor = `default`
       }
     }
-
-    // const game = () => {
-    //   $('.carbar').css('display', 'block')
-    //   $('.carbar').css('top', '200px')
-    //   $('.car').css('left', '400px')
-    //   $('.car').css('width', '8.51px');
-    //   $('.car').css('height', '5px')
-
-
-    //   let rleft = 400
-    //   let bt = 200
-    //   let bw = 8
-    //   let bf = 5
-
-    //   let aa = setInterval(() => {
-    //     bt += 20
-    //     $('.carbar').stop().animate({
-    //       top: `${bt}px`,
-    //     }, 25)
-    //     if (bt > 800 && we - 80 > rleft && rleft > we - 320) {
-    //       alert('!!')
-    //       rleft = -2000
-    //     }
-    //     if (bt > 900) {
-    //       $('.carbar').css('display', 'none')
-    //     }
-    //   }, 25);
-
-
-    //   const mm = (car) => {
-    //     rleft += (Math.round(Math.random() * 2) - 1) * (Math.floor(Math.random() * 90))
-    //     bw += 20
-    //     bf += 4
-    //     $('.car').stop().animate({
-    //       left: `${rleft}px`,
-    //       width: `${bw}px`,
-    //       height: `${bf}px`
-    //     }, 100)
-    //   }
-    //   mm(car)
-
-    //   let bb = setInterval(() => {
-    //     mm(car)
-    //   }, 100);
-
-    //   setInterval(function () {
-    //     clearInterval(aa)
-    //     clearInterval(bb)
-    //     game()
-    //   }, 1000);
-
-    // }
-    // game()
-
-
-
-
-
 
   </script>
 </body>
