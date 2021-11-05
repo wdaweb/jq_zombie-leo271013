@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+
   <title>Document</title>
 
   <style>
@@ -32,7 +35,7 @@
       position: relative;
       left: 50%;
       transform: translateX(-50%);
-      background: url(./resource/bg.png);
+      background: url(./resource/bg.jpg);
       overflow: hidden;
     }
 
@@ -65,7 +68,7 @@
       transform: translateX(-50%);
       left: 400px;
       z-index: 20;
-      border-radius: 40%;
+      border-radius: 50%;
     }
 
     .carbar2 {
@@ -86,7 +89,7 @@
       transform: translateX(-50%);
       left: 400px;
       z-index: 20;
-      border-radius: 40%;
+      border-radius: 50%;
     }
 
     #bo {
@@ -123,6 +126,7 @@
   <div id="box">
     <div id="bo"></div>
   </div>
+  <span class="nes-btn">Start</span>
 
   <script src="./resource/jquery-3.6.0.min.js"></script>
   <script>
@@ -136,10 +140,11 @@
     let we = 0
     let randon = 0
 
+
+
     const move = (carbar) => {
       tops += 18
-
-      if (750 > tops && tops > 720 && we - 85 < rleft && we + 85 > rleft) {
+      if (750 > tops && tops > 720 && $("#bo").offset().left - 285 - 100 < ($("#car10").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car10").offset().left) - 300) {
         alert('!!')
         tops = 800
       }
@@ -180,9 +185,8 @@
       } else {
         nu -= 1
       }
-      console.log(nu)
       randon = nu * (Math.floor(Math.random() * 18 + 2))
-      const carbar = $(`<div class="carbar"><div class="car"></div></div>`)
+      const carbar = $(`<div class="carbar"><div class="car" id="car10"></div></div>`)
       const car = document.getElementsByClassName('car')
       $("#box").append(carbar)
       move(carbar)
@@ -191,7 +195,7 @@
 
     setTimeout(() => {
       timer()
-    }, 1250);
+    }, 750);
 
     let tops2 = 210
     let rleft2 = 400
@@ -202,10 +206,9 @@
 
     const move3 = (carbar2) => {
       tops2 += 18
-
-      if (750 > tops2 && tops2 > 720 && we2 - 85 < rleft2 && we2 + 85 > rleft2) {
-        alert('!!')
-        tops = 800
+      if (750 > tops2 && tops2 > 720 && $("#bo").offset().left - 285 - 100 < ($("#car20").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car20").offset().left) - 300) {
+        alert('!!!')
+        tops2 = 800
       }
       if (tops2 < 750) {
         carbar2.stop().animate({
@@ -245,16 +248,15 @@
         nu2 -= 1
       }
       randon2 = nu2 * (Math.floor(Math.random() * 18 + 2))
-      const carbar2 = $(`<div class="carbar2"><div class="car2"></div></div>`)
+      const carbar2 = $(`<div class="carbar2"><div class="car2" id="car20"></div></div>`)
       const car2 = document.getElementsByClassName('car2')
       $("#box").append(carbar2)
       move3(carbar2)
       move4(car2)
     }
 
-    setTimeout(() => {
-      timer4()
-    }, 500);
+    timer4()
+
 
     // xxx.onclick = () =>{
 
