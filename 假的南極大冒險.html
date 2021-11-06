@@ -50,6 +50,41 @@
       z-index: 99;
     }
 
+    #omg {
+      height: 750px;
+      width: 800px;
+      font-size: 0;
+      position: absolute;
+      background: url(./resource/omg.gif);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+
+    #end {
+      height: 750px;
+      width: 800px;
+      font-size: 0;
+      position: absolute;
+      background: url(./resource/bend.gif);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      display: none;
+    }
+
+    #aend {
+      height: 750px;
+      width: 800px;
+      font-size: 0;
+      position: absolute;
+      background: url(./resource/end.jpg);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 99;
+      display: none;
+    }
+
     .carbar {
       width: 800px;
       height: 120px;
@@ -99,165 +134,233 @@
       position: absolute;
       transform: translateX(-50%);
       bottom: 10px;
-      left: 50px;
+      left: 400px;
       z-index: 30;
     }
 
-    .road {
-      background-size: 20px 20px;
-      animation: road 0.5s linear infinite;
+    #sbtn {
+      width: 200px;
+      height: 60px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 101;
+      top: 480px;
+      font-size: 2rem;
     }
 
-    @keyframes road {
-      0% {
-        background-position: 0 0;
-      }
+    #view {
+      position: absolute;
+      z-index: 90;
+      top: 20px;
+      color: white;
+      font-size: 1.5rem;
+      left: 20px;
+    }
 
-      100% {
-        background-position: 20px 0;
-      }
+    #again {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 101;
+      top: 750px;
+      display: none;
     }
   </style>
 </head>
 
 <body>
   <div class="home"></div>
+  <div id="omg"></div>
+  <div id="end"></div>
+  <div id="aend"></div>
   <div id="xxx"></div>
   <div id="box">
+    <span id="view">
+    </span>
     <div id="bo"></div>
   </div>
-  <span class="nes-btn">Start</span>
+  <button type="button" class="nes-btn is-primary" id="sbtn">START</button>
+  <button type="button" class="nes-btn is-warning" id="again">AGAIN</button>
 
   <script src="./resource/jquery-3.6.0.min.js"></script>
   <script>
     const box = document.getElementById("box")
     const bo = document.getElementById("bo")
+    const sbtn = document.getElementById("sbtn")
+    const omg = document.getElementById("omg")
+    const end = document.getElementById("end")
+    const view = document.getElementById("view")
+    const again = document.getElementById("again")
 
-    let tops = 210
-    let rleft = 400
-    let bw = 12
-    let bh = 7
-    let we = 0
-    let randon = 0
+    let scores = 0
 
 
+    const game = () => {
 
-    const move = (carbar) => {
-      tops += 18
-      if (750 > tops && tops > 720 && $("#bo").offset().left - 285 - 100 < ($("#car10").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car10").offset().left) - 300) {
-        alert('!!')
-        tops = 800
+      let tops = 210
+      let rleft = 400
+      let bw = 12
+      let bh = 7
+      let we = 0
+      let randon = 0
+      let hp = 2
+
+      const move = (carbar) => {
+        tops += 18
+        if (750 > tops && tops > 720 && $("#bo").offset().left - 285 - 100 < ($("#car10").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car10").offset().left) - 300) {
+          if (hp === 1) {
+            hp--
+            $("#end").css("display", " block")
+            setTimeout(() => {
+              $("#aend").css("display", " block")
+            }, 1000)
+            setTimeout(() => {
+              $("#end").css("background", " url(./resource/end.gif)no-repeat center/cover")
+            }, 1250)
+            setTimeout(() => {
+              $("#again").css("display", " block")
+            }, 2250)
+          } else {
+            hp--
+            $("#bo").css("background", " url(./resource/fail.png)no-repeat center/cover")
+            setTimeout(() => {
+              $("#bo").css("background", " url(./resource/hurt.gif)no-repeat center/cover")
+            }, 250)
+          }
+          tops = 800
+        }
+        if (tops < 750) {
+          carbar.stop().animate({
+            top: `${tops}px`,
+          }, 10, function () {
+            move(carbar)
+          })
+        } else {
+          $('.carbar').remove()
+          $('.car').remove()
+          tops = 190
+          rleft = 400
+          bw = 8.5
+          bh = 5
+          timer()
+        }
+
       }
-      if (tops < 750) {
-        carbar.stop().animate({
-          top: `${tops}px`,
-        }, 10, function () {
-          move(carbar)
+      const move2 = (car) => {
+        rleft += randon
+        bw += 7
+        bh += 1
+        $('.car').stop().animate({
+          left: `${rleft}px`,
+          width: `${bw}px`,
+          height: `${bh}px`
+        }, 25, function () {
+          move2(car)
         })
-      } else {
-        $('.carbar').remove()
-        $('.car').remove()
-        tops = 190
-        rleft = 400
-        bw = 8.5
-        bh = 5
-        timer()
       }
 
-    }
-    const move2 = (car) => {
-      rleft += randon
-      bw += 7
-      bh += 1
-      $('.car').stop().animate({
-        left: `${rleft}px`,
-        width: `${bw}px`,
-        height: `${bh}px`
-      }, 25, function () {
+      const timer = () => {
+        let nu = 0
+        if (Math.random() > 0.5) {
+          nu = 1
+        } else {
+          nu -= 1
+        }
+        randon = nu * (Math.floor(Math.random() * 12 + 2))
+        const carbar = $(`<div class="carbar"><div class="car" id="car10"></div></div>`)
+        const car = document.getElementsByClassName('car')
+        $("#box").append(carbar)
+        move(carbar)
         move2(car)
-      })
-    }
-
-    const timer = () => {
-      let nu = 0
-      if (Math.random() > 0.5) {
-        nu = 1
-      } else {
-        nu -= 1
       }
-      randon = nu * (Math.floor(Math.random() * 18 + 2))
-      const carbar = $(`<div class="carbar"><div class="car" id="car10"></div></div>`)
-      const car = document.getElementsByClassName('car')
-      $("#box").append(carbar)
-      move(carbar)
-      move2(car)
-    }
 
-    setTimeout(() => {
-      timer()
-    }, 750);
+      setTimeout(() => {
+        timer()
+      }, 1320);
 
-    let tops2 = 210
-    let rleft2 = 400
-    let bw2 = 12
-    let bh2 = 7
-    let we2 = 0
-    let randon2 = 0
+      let tops2 = 210
+      let rleft2 = 400
+      let bw2 = 12
+      let bh2 = 7
+      let we2 = 0
+      let randon2 = 0
 
-    const move3 = (carbar2) => {
-      tops2 += 18
-      if (750 > tops2 && tops2 > 720 && $("#bo").offset().left - 285 - 100 < ($("#car20").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car20").offset().left) - 300) {
-        alert('!!!')
-        tops2 = 800
+      const move3 = (carbar2) => {
+        tops2 += 18
+        if (750 > tops2 && tops2 > 720 && $("#bo").offset().left - 285 - 100 < ($("#car20").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car20").offset().left) - 300) {
+          if (hp === 1) {
+            hp--
+            $("#end").css("display", " block")
+            setTimeout(() => {
+              $("#aend").css("display", " block")
+            }, 1000)
+            setTimeout(() => {
+              $("#end").css("background", " url(./resource/end.gif)no-repeat center/cover")
+            }, 1250)
+            setTimeout(() => {
+              $("#again").css("display", " block")
+            }, 2250)
+          } else {
+            hp--
+            $("#bo").css("background", " url(./resource/fail.png)no-repeat center/cover")
+            setTimeout(() => {
+              $("#bo").css("background", " url(./resource/hurt.gif)no-repeat center/cover")
+            }, 250)
+          }
+          tops2 = 800
+        }
+        if (tops2 < 750) {
+          carbar2.stop().animate({
+            top: `${tops2}px`,
+          }, 10, function () {
+            move3(carbar2)
+          })
+        } else {
+          $('.carbar2').remove()
+          $('.car2').remove()
+          tops2 = 190
+          rleft2 = 400
+          bw2 = 8.5
+          bh2 = 5
+          timer4()
+        }
+
       }
-      if (tops2 < 750) {
-        carbar2.stop().animate({
-          top: `${tops2}px`,
-        }, 10, function () {
-          move3(carbar2)
+      const move4 = (car2) => {
+        rleft2 += randon2
+        bw2 += 7
+        bh2 += 1
+        $('.car2').stop().animate({
+          left: `${rleft2}px`,
+          width: `${bw2}px`,
+          height: `${bh2}px`
+        }, 25, function () {
+          move4(car2)
         })
-      } else {
-        $('.carbar2').remove()
-        $('.car2').remove()
-        tops2 = 190
-        rleft2 = 400
-        bw2 = 8.5
-        bh2 = 5
-        timer4()
       }
 
-    }
-    const move4 = (car2) => {
-      rleft2 += randon2
-      bw2 += 7
-      bh2 += 1
-      $('.car2').stop().animate({
-        left: `${rleft2}px`,
-        width: `${bw2}px`,
-        height: `${bh2}px`
-      }, 25, function () {
+      const timer4 = () => {
+        let nu2 = 0
+        if (Math.random() > 0.5) {
+          nu2 = 1
+        } else {
+          nu2 -= 1
+        }
+        randon2 = nu2 * (Math.floor(Math.random() * 12 + 2))
+        const carbar2 = $(`<div class="carbar2"><div class="car2" id="car20"></div></div>`)
+        const car2 = document.getElementsByClassName('car2')
+        $("#box").append(carbar2)
+        move3(carbar2)
         move4(car2)
-      })
-    }
-
-    const timer4 = () => {
-      let nu2 = 0
-      if (Math.random() > 0.5) {
-        nu2 = 1
-      } else {
-        nu2 -= 1
       }
-      randon2 = nu2 * (Math.floor(Math.random() * 18 + 2))
-      const carbar2 = $(`<div class="carbar2"><div class="car2" id="car20"></div></div>`)
-      const car2 = document.getElementsByClassName('car2')
-      $("#box").append(carbar2)
-      move3(carbar2)
-      move4(car2)
+
+      setTimeout(() => {
+        timer4()
+      }, 1000);
     }
 
-    timer4()
-
-
+    //跳躍 
     // xxx.onclick = () =>{
 
     // }
@@ -291,6 +394,23 @@
         xxx.style.cursor = `default`
       }
     }
+
+    $("#sbtn").on("click", function () {
+      $("#omg").css("background", " url(./resource/start.gif)")
+      $("#sbtn").fadeOut(1300, function () {
+        $("#omg").css("display", " none")
+        game()
+        let score = setInterval(() => {
+          scores++
+          $("#view").text(`Distance:${scores}m`);
+        }, 100)
+      })
+    })
+
+    $("#again").on("click", function () {
+      location.reload()
+    })
+
 
   </script>
 </body>
