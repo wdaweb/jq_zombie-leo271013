@@ -98,12 +98,11 @@
     .car {
       width: 12px;
       height: 7px;
-      background-color: rgb(0, 0, 0);
       position: absolute;
       transform: translateX(-50%);
       left: 400px;
       z-index: 20;
-      border-radius: 50%;
+      background: url(./resource/oh.png)no-repeat center/cover;
     }
 
     .carbar2 {
@@ -119,12 +118,11 @@
     .car2 {
       width: 12px;
       height: 7px;
-      background-color: rgb(0, 0, 0);
       position: absolute;
       transform: translateX(-50%);
       left: 400px;
       z-index: 20;
-      border-radius: 50%;
+      background: url(./resource/oh.png)no-repeat center/cover;
     }
 
     #bo {
@@ -166,13 +164,68 @@
       top: 750px;
       display: none;
     }
+
+    #sc {
+      position: absolute;
+      z-index: 90;
+      top: 350px;
+      color: white;
+      font-size: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    .jumped {
+      filter: drop-shadow(5px 5px 25px #333);
+    }
+
+    .jump {
+      animation-name: jump;
+      animation-duration: 1s;
+    }
+
+    .jumph {
+      animation-name: jumph;
+      animation-duration: 1s;
+    }
+
+    @keyframes jump {
+      from {
+        bottom: 10px;
+      }
+
+      50% {
+        bottom: 40px;
+      }
+
+      to {
+        bottom: 10px;
+      }
+    }
+
+    @keyframes jumph {
+      from {
+        bottom: 10px;
+      }
+
+      50% {
+        bottom: 40px;
+      }
+
+      to {
+        bottom: 10px;
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class="home"></div>
   <div id="omg"></div>
-  <div id="end"></div>
+  <div id="end">
+    <span id="sc"></span>
+  </div>
   <div id="aend"></div>
   <div id="xxx"></div>
   <div id="box">
@@ -194,7 +247,10 @@
     const again = document.getElementById("again")
 
     let scores = 0
-
+    let escore = 0
+    let cool = `Distance:`
+    let cd = 1
+    let hp = 2
 
     const game = () => {
 
@@ -204,23 +260,36 @@
       let bh = 7
       let we = 0
       let randon = 0
-      let hp = 2
 
       const move = (carbar) => {
         tops += 18
-        if (750 > tops && tops > 720 && $("#bo").offset().left - 285 - 100 < ($("#car10").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car10").offset().left) - 300) {
+        if (750 > tops && tops > 720 && $("#bo").offset().left - 285 - 100 < ($("#car10").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car10").offset().left) - 300 && $("#bo").hasClass("jump") === false && $("#bo").hasClass("jumph") === false) {
           if (hp === 1) {
             hp--
+            clearInterval(score)
             $("#end").css("display", " block")
             setTimeout(() => {
               $("#aend").css("display", " block")
             }, 1000)
             setTimeout(() => {
               $("#end").css("background", " url(./resource/end.gif)no-repeat center/cover")
+              for (let i = 0; i <= cool.length; i++) {
+                setTimeout(() => {
+                  $("#sc").html(cool.substr(0, i + 1))
+                }, 100 * i)
+              }
+              setTimeout(() => {
+                $("#sc").html(`Distance:<br>`)
+                for (let i = 0; i <= escore.length; i++) {
+                  setTimeout(() => {
+                    $("#sc").html(`Distance:<br>` + escore.substr(0, i + 1))
+                  }, 100 * i)
+                }
+              }, 1000)
             }, 1250)
             setTimeout(() => {
               $("#again").css("display", " block")
-            }, 2250)
+            }, 2800)
           } else {
             hp--
             $("#bo").css("background", " url(./resource/fail.png)no-repeat center/cover")
@@ -285,22 +354,37 @@
       let bh2 = 7
       let we2 = 0
       let randon2 = 0
+      let score = 0
 
       const move3 = (carbar2) => {
         tops2 += 18
-        if (750 > tops2 && tops2 > 720 && $("#bo").offset().left - 285 - 100 < ($("#car20").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car20").offset().left) - 300) {
+        if (750 > tops && tops > 720 && $("#bo").offset().left - 285 - 100 < ($("#car10").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car10").offset().left) - 300 && $("#bo").hasClass("jump") === false && $("#bo").hasClass("jumph") === false) {
           if (hp === 1) {
             hp--
+            clearInterval(score)
             $("#end").css("display", " block")
             setTimeout(() => {
               $("#aend").css("display", " block")
             }, 1000)
             setTimeout(() => {
               $("#end").css("background", " url(./resource/end.gif)no-repeat center/cover")
+              for (let i = 0; i <= cool.length; i++) {
+                setTimeout(() => {
+                  $("#sc").html(cool.substr(0, i + 1))
+                }, 100 * i)
+              }
+              setTimeout(() => {
+                $("#sc").html(`Distance:<br>`)
+                for (let i = 0; i <= escore.length; i++) {
+                  setTimeout(() => {
+                    $("#sc").html(`Distance:<br>` + escore.substr(0, i + 1))
+                  }, 100 * i)
+                }
+              }, 1000)
             }, 1250)
             setTimeout(() => {
               $("#again").css("display", " block")
-            }, 2250)
+            }, 2800)
           } else {
             hp--
             $("#bo").css("background", " url(./resource/fail.png)no-repeat center/cover")
@@ -358,12 +442,39 @@
       setTimeout(() => {
         timer4()
       }, 1000);
+
+      // 生成旁邊景色
+
+      // 生成人
     }
 
     //跳躍 
-    // xxx.onclick = () =>{
-
-    // }
+    xxx.onclick = () => {
+      if (cd === 1) {
+        cd = 0
+        setTimeout(() => {
+          $("#bo").addClass("jumped")
+          $("#bo").removeClass("jumph")
+          $("#bo").removeClass("jump")
+          if (hp === 1) {
+            $("#bo").css("background", ` url(./resource/hurt.gif)no-repeat center/cover`)
+          } else {
+            $("#bo").css("background", ` url(./resource/pg.gif)no-repeat center/cover`)
+          }
+        }, 1000)
+        setTimeout(() => {
+          $("#bo").removeClass("jumped")
+          cd = 1
+        }, 4000)
+        if (hp === 1) {
+          $("#bo").addClass("jumph")
+          $("#bo").css("background", ` url(./resource/jumph.gif)no-repeat center/cover`)
+        } else {
+          $("#bo").addClass("jump")
+          $("#bo").css("background", ` url(./resource/jump.gif)no-repeat center/cover`)
+        }
+      }
+    }
 
     xxx.onmousemove = (e) => {
       bo.style.left = `${e.offsetX - 300}px`
@@ -371,7 +482,7 @@
       we2 = e.offsetX - 300
 
       if (300 < e.offsetX < 1100 && 119 < e.offsetY < 879) {
-        // xxx.style.cursor = `none`
+        xxx.style.cursor = `none`
       }
       if (e.offsetX < 500) {
         bo.style.left = `150px`
@@ -400,9 +511,10 @@
       $("#sbtn").fadeOut(1300, function () {
         $("#omg").css("display", " none")
         game()
-        let score = setInterval(() => {
+        score = setInterval(() => {
           scores++
           $("#view").text(`Distance:${scores}m`);
+          escore = `${scores}m`
         }, 100)
       })
     })
@@ -410,7 +522,6 @@
     $("#again").on("click", function () {
       location.reload()
     })
-
 
   </script>
 </body>
