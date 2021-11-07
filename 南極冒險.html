@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
 
-  <title>Document</title>
+  <title>南極冒險</title>
 
   <style>
     * {
@@ -177,7 +177,7 @@
     }
 
     .jumped {
-      filter: drop-shadow(5px 5px 25px #333);
+      filter: drop-shadow(5px 5px 25px rgb(10, 21, 179));
     }
 
     .jump {
@@ -217,14 +217,100 @@
         bottom: 10px;
       }
     }
+
+    #hplayer {
+      position: absolute;
+      left: 550px;
+      top: 300px;
+      text-align: center;
+      z-index: 200;
+      font-size: 1.5rem;
+      line-height: 3rem;
+    }
+
+    #hs {
+      position: absolute;
+      left: 600px;
+      top: 400px;
+      text-align: center;
+      z-index: 200;
+      font-size: 2rem;
+      color: rgb(204, 0, 0);
+    }
+
+    #highname {
+      font-size: 2rem;
+      color: rgb(246, 160, 0);
+    }
+
+    #enter {
+      display: none;
+      position: absolute;
+      font-size: 0.8rem;
+      top: 550px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #stext {
+      display: none;
+      width: 170px;
+      position: absolute;
+      font-size: 1rem;
+      top: 500px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    #newb {
+      display: none;
+      width: 170px;
+      position: absolute;
+      font-size: 1rem;
+      top: 440px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: rgb(212, 0, 0);
+      animation-name: flash;
+      animation-duration: .5s;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes flash {
+      from {
+        filter: grayscale(0%);
+      }
+
+      to {
+        filter: grayscale(30%);
+      }
+    }
+
+    .l1 {
+      width: 42px;
+      height: 31px;
+      position: absolute;
+      transform: translateX(-50%);
+      left: 200px;
+      z-index: 20;
+      background: url(./resource/sd.gif)no-repeat center/cover;
+    }
   </style>
 </head>
 
 <body>
   <div class="home"></div>
-  <div id="omg"></div>
+  <div id="omg">
+    <span id="hplayer">TOP SCORE:<br><span id="highname"></span></span>
+    <span id="hs"><span id="highscore">0</span>m</span>
+  </div>
   <div id="end">
     <span id="sc"></span>
+    <span id="newb">NEW RECORD!</span>
+    <input type="text" name="stext" id="stext" placeholder="your name" maxlength="7">
+    <input type="button" value="ENTER" class="nes-btn" id="enter">
   </div>
   <div id="aend"></div>
   <div id="xxx"></div>
@@ -245,6 +331,26 @@
     const end = document.getElementById("end")
     const view = document.getElementById("view")
     const again = document.getElementById("again")
+    const hs = document.getElementById("hs")
+    const hplayer = document.getElementById("hplayer")
+    const stext = document.getElementById("stext")
+    const enter = document.getElementById("enter")
+    const newb = document.getElementById("newb")
+
+    const highnameText = document.getElementById('highname')
+    const highscoreText = document.getElementById('highscore')
+    const high = { score: 0, name: 'Anonymous' }
+
+    // 讀取資料
+    const storage = JSON.parse(localStorage.getItem('pgrun'))
+
+    if (storage) {
+      high.name = storage.name
+      high.score = storage.score
+      // 修改最高分顯示文字
+      highnameText.innerText = high.name
+      highscoreText.innerText = high.score
+    }
 
     let scores = 0
     let escore = 0
@@ -288,6 +394,20 @@
               }, 1000)
             }, 1250)
             setTimeout(() => {
+              if (scores > high.score) {
+                $("#enter").css("display", " block")
+                $("#stext").css("display", " block")
+                $("#newb").css("display", " block")
+                enter.onclick = () => {
+                  high.name = $("#stext").val()
+                  high.score = scores
+                  highnameText.innerText = high.name
+                  highscoreText.innerText = high.score
+                  // localStorage.setItem(資料名,文字)
+                  // 變數轉文字JSON.stringify
+                  localStorage.setItem('pgrun', JSON.stringify(high))
+                }
+              }
               $("#again").css("display", " block")
             }, 2800)
           } else {
@@ -358,7 +478,7 @@
 
       const move3 = (carbar2) => {
         tops2 += 18
-        if (750 > tops && tops > 720 && $("#bo").offset().left - 285 - 100 < ($("#car10").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car10").offset().left) - 300 && $("#bo").hasClass("jump") === false && $("#bo").hasClass("jumph") === false) {
+        if (750 > tops2 && tops2 > 720 && $("#bo").offset().left - 285 - 100 < ($("#car20").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car20").offset().left) - 300 && $("#bo").hasClass("jump") === false && $("#bo").hasClass("jumph") === false) {
           if (hp === 1) {
             hp--
             clearInterval(score)
@@ -383,6 +503,20 @@
               }, 1000)
             }, 1250)
             setTimeout(() => {
+              if (scores > high.score) {
+                $("#enter").css("display", " block")
+                $("#stext").css("display", " block")
+                $("#newb").css("display", " block")
+                enter.onclick = () => {
+                  high.name = $("#stext").val()
+                  high.score = scores
+                  highnameText.innerText = high.name
+                  highscoreText.innerText = high.score
+                  // localStorage.setItem(資料名,文字)
+                  // 變數轉文字JSON.stringify
+                  localStorage.setItem('pgrun', JSON.stringify(high))
+                }
+              }
               $("#again").css("display", " block")
             }, 2800)
           } else {
@@ -508,6 +642,8 @@
 
     $("#sbtn").on("click", function () {
       $("#omg").css("background", " url(./resource/start.gif)")
+      $("#hs").css("display", " none")
+      $("#hplayer").css("display", " none")
       $("#sbtn").fadeOut(1300, function () {
         $("#omg").css("display", " none")
         game()
