@@ -288,14 +288,34 @@
       }
     }
 
-    .l1 {
+    .ob1 {
       width: 42px;
       height: 31px;
       position: absolute;
       transform: translateX(-50%);
-      left: 200px;
       z-index: 20;
       background: url(./resource/sd.gif)no-repeat center/cover;
+      display: none;
+    }
+
+    .ob2 {
+      width: 42px;
+      height: 31px;
+      position: absolute;
+      transform: translateX(-50%);
+      z-index: 20;
+      background: url(./resource/house.png)no-repeat center/cover;
+      display: none;
+    }
+
+    .ob3 {
+      width: 42px;
+      height: 31px;
+      position: absolute;
+      transform: translateX(-50%);
+      z-index: 20;
+      background: url(./resource/snowman.gif)no-repeat center/cover;
+      display: none;
     }
   </style>
 </head>
@@ -318,6 +338,12 @@
     <span id="view">
     </span>
     <div id="bo"></div>
+    <div class="ob1"></div>
+    <div class="ob2"></div>
+    <div class="ob3"></div>
+    <div class="ob1"></div>
+    <div class="ob2"></div>
+    <div class="ob3"></div>
   </div>
   <button type="button" class="nes-btn is-primary" id="sbtn">START</button>
   <button type="button" class="nes-btn is-warning" id="again">AGAIN</button>
