@@ -177,7 +177,7 @@
     }
 
     .jumped {
-      filter: drop-shadow(5px 5px 25px rgb(10, 21, 179));
+      filter: drop-shadow(5px 5px 50px rgb(10, 21, 179));
     }
 
     .jump {
@@ -317,6 +317,38 @@
       background: url(./resource/snowman.gif)no-repeat center/cover;
       display: none;
     }
+
+    lani {
+      animation-name: lani;
+      animation-duration: 1s;
+    }
+
+    rani {
+      animation-name: rani;
+      animation-duration: 1s;
+    }
+
+    @keyframes lani {
+      from {
+        left: 200px;
+        top: 200px;
+      }
+
+      to {
+        filter: grayscale(30%);
+      }
+    }
+
+    @keyframes rani {
+      from {
+        left: 200px;
+        top: 200px;
+      }
+
+      to {
+        filter: grayscale(30%);
+      }
+    }
   </style>
 </head>
 
@@ -338,12 +370,8 @@
     <span id="view">
     </span>
     <div id="bo"></div>
-    <div class="ob1"></div>
-    <div class="ob2"></div>
-    <div class="ob3"></div>
-    <div class="ob1"></div>
-    <div class="ob2"></div>
-    <div class="ob3"></div>
+    <div id="leftob"></div>
+    <div id="rightob"></div>
   </div>
   <button type="button" class="nes-btn is-primary" id="sbtn">START</button>
   <button type="button" class="nes-btn is-warning" id="again">AGAIN</button>
@@ -367,13 +395,11 @@
     const highscoreText = document.getElementById('highscore')
     const high = { score: 0, name: 'Anonymous' }
 
-    // 讀取資料
     const storage = JSON.parse(localStorage.getItem('pgrun'))
 
     if (storage) {
       high.name = storage.name
       high.score = storage.score
-      // 修改最高分顯示文字
       highnameText.innerText = high.name
       highscoreText.innerText = high.score
     }
@@ -393,12 +419,18 @@
       let we = 0
       let randon = 0
 
+      const scoret = setInterval(() => {
+        scores++
+        $("#view").text(`Distance:${scores}m`);
+        escore = `${scores}m`
+      }, 100)
+
       const move = (carbar) => {
         tops += 18
         if (750 > tops && tops > 720 && $("#bo").offset().left - 285 - 100 < ($("#car10").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car10").offset().left) - 300 && $("#bo").hasClass("jump") === false && $("#bo").hasClass("jumph") === false) {
           if (hp === 1) {
             hp--
-            clearInterval(score)
+            clearInterval(scoret)
             $("#end").css("display", " block")
             setTimeout(() => {
               $("#aend").css("display", " block")
@@ -427,11 +459,9 @@
                 enter.onclick = () => {
                   high.name = $("#stext").val()
                   high.score = scores
-                  highnameText.innerText = high.name
-                  highscoreText.innerText = high.score
-                  // localStorage.setItem(資料名,文字)
-                  // 變數轉文字JSON.stringify
                   localStorage.setItem('pgrun', JSON.stringify(high))
+                  $("#enter").css("display", " none")
+                  $("#stext").css("display", " none")
                 }
               }
               $("#again").css("display", " block")
@@ -507,7 +537,7 @@
         if (750 > tops2 && tops2 > 720 && $("#bo").offset().left - 285 - 100 < ($("#car20").offset().left) - 300 && $("#bo").offset().left - 285 + 70 > ($("#car20").offset().left) - 300 && $("#bo").hasClass("jump") === false && $("#bo").hasClass("jumph") === false) {
           if (hp === 1) {
             hp--
-            clearInterval(score)
+            clearInterval(scoret)
             $("#end").css("display", " block")
             setTimeout(() => {
               $("#aend").css("display", " block")
@@ -536,11 +566,9 @@
                 enter.onclick = () => {
                   high.name = $("#stext").val()
                   high.score = scores
-                  highnameText.innerText = high.name
-                  highscoreText.innerText = high.score
-                  // localStorage.setItem(資料名,文字)
-                  // 變數轉文字JSON.stringify
                   localStorage.setItem('pgrun', JSON.stringify(high))
+                  $("#enter").css("display", " none")
+                  $("#stext").css("display", " none")
                 }
               }
               $("#again").css("display", " block")
@@ -608,7 +636,6 @@
       // 生成人
     }
 
-    //跳躍 
     xxx.onclick = () => {
       if (cd === 1) {
         cd = 0
@@ -673,11 +700,6 @@
       $("#sbtn").fadeOut(1300, function () {
         $("#omg").css("display", " none")
         game()
-        score = setInterval(() => {
-          scores++
-          $("#view").text(`Distance:${scores}m`);
-          escore = `${scores}m`
-        }, 100)
       })
     })
 
