@@ -35,7 +35,7 @@
       position: relative;
       left: 50%;
       transform: translateX(-50%);
-      background: url(./resource/bg.jpg);
+      background: url(./resource/bg.gif);
       overflow: hidden;
     }
 
@@ -293,61 +293,10 @@
       height: 31px;
       position: absolute;
       transform: translateX(-50%);
-      z-index: 20;
+      z-index: 300;
       background: url(./resource/sd.gif)no-repeat center/cover;
-      display: none;
-    }
-
-    .ob2 {
-      width: 42px;
-      height: 31px;
-      position: absolute;
-      transform: translateX(-50%);
-      z-index: 20;
-      background: url(./resource/house.png)no-repeat center/cover;
-      display: none;
-    }
-
-    .ob3 {
-      width: 42px;
-      height: 31px;
-      position: absolute;
-      transform: translateX(-50%);
-      z-index: 20;
-      background: url(./resource/snowman.gif)no-repeat center/cover;
-      display: none;
-    }
-
-    lani {
-      animation-name: lani;
-      animation-duration: 1s;
-    }
-
-    rani {
-      animation-name: rani;
-      animation-duration: 1s;
-    }
-
-    @keyframes lani {
-      from {
-        left: 200px;
-        top: 200px;
-      }
-
-      to {
-        filter: grayscale(30%);
-      }
-    }
-
-    @keyframes rani {
-      from {
-        left: 200px;
-        top: 200px;
-      }
-
-      to {
-        filter: grayscale(30%);
-      }
+      top: 120px;
+      left: 130px;
     }
   </style>
 </head>
@@ -370,8 +319,8 @@
     <span id="view">
     </span>
     <div id="bo"></div>
-    <div id="leftob"></div>
-    <div id="rightob"></div>
+    <div class="ob1"></div>
+    <div class="ob1" style="left: 700px;top: 140px;"></div>
   </div>
   <button type="button" class="nes-btn is-primary" id="sbtn">START</button>
   <button type="button" class="nes-btn is-warning" id="again">AGAIN</button>
@@ -522,7 +471,7 @@
 
       setTimeout(() => {
         timer()
-      }, 1320);
+      }, 1300);
 
       let tops2 = 210
       let rleft2 = 400
